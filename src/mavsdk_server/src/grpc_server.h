@@ -6,6 +6,8 @@
 
 #include "mavsdk.h"
 #include "core/core_service_impl.h"
+#include "plugins/command/command.h"
+#include "command/command_service_impl.h"
 #include "plugins/action/action.h"
 #include "action/action_service_impl.h"
 #include "plugins/action_server/action_server.h"
@@ -66,6 +68,8 @@ class GrpcServer {
 public:
     GrpcServer(Mavsdk& mavsdk) :
         _core(mavsdk),
+        _command_lazy_plugin(mavsdk),
+        _command_service(_command_lazy_plugin),
         _action_lazy_plugin(mavsdk),
         _action_service(_action_lazy_plugin),
         _action_server_lazy_plugin(mavsdk),
@@ -129,6 +133,8 @@ private:
     void setup_port(grpc::ServerBuilder& builder);
 
     CoreServiceImpl<> _core;
+    LazyPlugin<Command> _command_lazy_plugin;
+    CommandServiceImpl<> _command_service;
     LazyPlugin<Action> _action_lazy_plugin;
     ActionServiceImpl<> _action_service;
     LazyPlugin<ActionServer> _action_server_lazy_plugin;

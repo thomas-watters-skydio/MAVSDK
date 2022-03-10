@@ -26,6 +26,8 @@ add_subdirectory(transponder)
 add_subdirectory(telemetry_server)
 add_subdirectory(component_information)
 add_subdirectory(component_information_server)
+add_subdirectory(command)
+add_subdirectory(poi)
 add_subdirectory(tune)
 
 set(UNIT_TEST_SOURCES ${UNIT_TEST_SOURCES} PARENT_SCOPE)

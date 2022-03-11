@@ -20,6 +20,7 @@ int GrpcServer::run()
 
     builder.RegisterService(&_core);
     builder.RegisterService(&_command_service);
+    builder.RegisterService(&_poi_service);
     builder.RegisterService(&_action_service);
     builder.RegisterService(&_action_server_service);
     builder.RegisterService(&_calibration_service);
@@ -73,6 +74,7 @@ void GrpcServer::stop()
     if (_server != nullptr) {
         _core.stop();
         _command_service.stop();
+        _poi_service.stop();
         _action_service.stop();
         _action_server_service.stop();
         _calibration_service.stop();

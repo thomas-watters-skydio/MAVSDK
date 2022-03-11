@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10.2)
 
 set(COMPONENTS_LIST
     command
+    poi
     action
     action_server
     calibration

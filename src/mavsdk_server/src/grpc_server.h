@@ -8,6 +8,8 @@
 #include "core/core_service_impl.h"
 #include "plugins/command/command.h"
 #include "command/command_service_impl.h"
+#include "plugins/poi/poi.h"
+#include "poi/poi_service_impl.h"
 #include "plugins/action/action.h"
 #include "action/action_service_impl.h"
 #include "plugins/action_server/action_server.h"
@@ -70,6 +72,8 @@ public:
         _core(mavsdk),
         _command_lazy_plugin(mavsdk),
         _command_service(_command_lazy_plugin),
+        _poi_lazy_plugin(mavsdk),
+        _poi_service(_poi_lazy_plugin),
         _action_lazy_plugin(mavsdk),
         _action_service(_action_lazy_plugin),
         _action_server_lazy_plugin(mavsdk),
@@ -135,6 +139,8 @@ private:
     CoreServiceImpl<> _core;
     LazyPlugin<Command> _command_lazy_plugin;
     CommandServiceImpl<> _command_service;
+    LazyPlugin<Poi> _poi_lazy_plugin;
+    PoiServiceImpl<> _poi_service;
     LazyPlugin<Action> _action_lazy_plugin;
     ActionServiceImpl<> _action_service;
     LazyPlugin<ActionServer> _action_server_lazy_plugin;

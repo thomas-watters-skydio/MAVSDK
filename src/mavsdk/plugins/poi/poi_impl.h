@@ -22,7 +22,6 @@ public:
     Poi::PoiReport poi_report() const;
 
 private:
-
     void process_poi_report(const mavlink_message_t& message);
 
     std::mutex _subscription_mutex{};

@@ -17,14 +17,16 @@ PoiImpl::~PoiImpl()
     _parent->unregister_plugin(this);
 }
 
-void PoiImpl::init() {
+void PoiImpl::init()
+{
     _parent->register_mavlink_message_handler(
         MAVLINK_MSG_ID_POI_REPORT,
         [this](const mavlink_message_t& message) { process_poi_report(message); },
         this);
 }
 
-void PoiImpl::deinit() {
+void PoiImpl::deinit()
+{
     _parent->unregister_all_mavlink_message_handlers(this);
 }
 
@@ -32,7 +34,8 @@ void PoiImpl::enable() {}
 
 void PoiImpl::disable() {}
 
-void PoiImpl::subscribe_poi_report(Poi::PoiReportCallback callback) {
+void PoiImpl::subscribe_poi_report(Poi::PoiReportCallback callback)
+{
     std::lock_guard<std::mutex> lock(_subscription_mutex);
     _poi_report_subscription = callback;
 }
@@ -42,7 +45,8 @@ Poi::PoiReport PoiImpl::poi_report() const
     return Poi::PoiReport{};
 }
 
-void PoiImpl::process_poi_report(const mavlink_message_t& message) {
+void PoiImpl::process_poi_report(const mavlink_message_t& message)
+{
     mavlink_poi_report_t poi_report;
     mavlink_msg_poi_report_decode(&message, &poi_report);
 
@@ -70,9 +74,12 @@ void PoiImpl::process_poi_report(const mavlink_message_t& message) {
     poi_report_out.height = poi_report.height;
     poi_report_out.width = poi_report.width;
     poi_report_out.depth = poi_report.depth;
-    poi_report_out.approach_vector_start = decltype(poi_report_out.approach_vector_start)(poi_report.approach_vector_start, poi_report.approach_vector_start + 3);
-    poi_report_out.approach_vector_end = decltype(poi_report_out.approach_vector_end)(poi_report.approach_vector_end, poi_report.approach_vector_end + 3);
-    poi_report_out.approach_velocity = decltype(poi_report_out.approach_velocity)(poi_report.approach_velocity, poi_report.approach_velocity + 3);
+    poi_report_out.approach_vector_start = decltype(poi_report_out.approach_vector_start)(
+        poi_report.approach_vector_start, poi_report.approach_vector_start + 3);
+    poi_report_out.approach_vector_end = decltype(poi_report_out.approach_vector_end)(
+        poi_report.approach_vector_end, poi_report.approach_vector_end + 3);
+    poi_report_out.approach_velocity = decltype(poi_report_out.approach_velocity)(
+        poi_report.approach_velocity, poi_report.approach_velocity + 3);
     poi_report_out.ttl = poi_report.ttl;
     poi_report_out.confidence_overall = poi_report.confidence_overall;
     poi_report_out.confidence_detection = poi_report.confidence_detection;

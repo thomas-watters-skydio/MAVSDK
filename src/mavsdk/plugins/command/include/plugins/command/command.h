@@ -21,7 +21,7 @@ class System;
 class CommandImpl;
 
 /**
- * @brief 
+ * @brief
  */
 class Command : public PluginBase {
 public:
@@ -56,15 +56,10 @@ public:
      */
     ~Command();
 
-
-
-
-
     /**
-     * @brief 
+     * @brief
      */
     struct CommandLong {
-        
         uint32_t target_system{}; /**< @brief actually uint8 */
         uint32_t target_component{}; /**< @brief actually uint8 */
         uint32_t command{}; /**< @brief actually uint16 */
@@ -92,12 +87,8 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& str, Command::CommandLong const& command_long);
 
-
-
-
-
     /**
-     * @brief 
+     * @brief
      */
     enum class Result {
         Accepted, /**< @brief. */
@@ -117,36 +108,26 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& str, Command::Result const& result);
 
-
-
     /**
      * @brief Callback type for asynchronous Command calls.
      */
     using ResultCallback = std::function<void(Result)>;
 
-
-
-
     /**
-     * @brief 
+     * @brief
      *
      * This function is non-blocking. See 'send_command_long' for the blocking counterpart.
      */
     void send_command_long_async(CommandLong command, const ResultCallback callback);
 
-
-
     /**
-     * @brief 
+     * @brief
      *
      * This function is blocking. See 'send_command_long_async' for the non-blocking counterpart.
      *
      * @return Result of request.
      */
     Result send_command_long(CommandLong command) const;
-
-
-
 
     /**
      * @brief Copy constructor.

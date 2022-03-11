@@ -2,6 +2,24 @@
 
 namespace mavsdk {
 
+static Command::Result command_result_to_command_result(MavlinkCommandSender::Result result)
+{
+    Command::Result ret;
+    switch (result) {
+        case MavlinkCommandSender::Result::Success:
+            ret = Command::Result::Accepted;
+            break;
+        case MavlinkCommandSender::Result::InProgress:
+            ret = Command::Result::InProgress;
+            break;
+        default:
+            ret = Command::Result::Unsupported;
+            break;
+    }
+
+    return ret;
+}
+
 CommandImpl::CommandImpl(System& system) : PluginImplBase(system)
 {
     _parent->register_plugin(this);
@@ -25,9 +43,8 @@ void CommandImpl::enable() {}
 
 void CommandImpl::disable() {}
 
-
-
-void CommandImpl::send_command_long_async(Command::CommandLong command, const Command::ResultCallback callback)
+void CommandImpl::send_command_long_async(
+    Command::CommandLong command, const Command::ResultCallback callback)
 {
     MavlinkCommandSender::CommandLong cmd{};
 
@@ -43,13 +60,10 @@ void CommandImpl::send_command_long_async(Command::CommandLong command, const Co
     cmd.params.maybe_param6 = command.param6;
     cmd.params.maybe_param7 = command.param7;
 
-    _parent->send_command_async(
-        cmd, [this, callback](MavlinkCommandSender::Result result, float) {
-            callback(command_result_to_mission_result(result));
-        });
+    _parent->send_command_async(cmd, [this, callback](MavlinkCommandSender::Result result, float) {
+        command_result_callback(result, callback);
+    });
 }
-
-
 
 Command::Result CommandImpl::send_command_long(Command::CommandLong command)
 {
@@ -70,33 +84,21 @@ Command::Result CommandImpl::send_command_long(Command::CommandLong command)
     auto prom = std::promise<Command::Result>();
     auto fut = prom.get_future();
 
-    _parent->send_command_async(
-        cmd, [&prom, this](MavlinkCommandSender::Result result, float) {
-            prom.set_value(command_result_to_mission_result(result));
-        });
+    _parent->send_command_async(cmd, [&prom, this](MavlinkCommandSender::Result result, float) {
+        prom.set_value(command_result_to_command_result(result));
+    });
     return fut.get();
 }
 
-Command::Result
-CommandImpl::command_result_to_mission_result(MavlinkCommandSender::Result result)
+void CommandImpl::command_result_callback(
+    MavlinkCommandSender::Result command_result, const Command::ResultCallback& callback) const
 {
-    Command::Result ret;
-    switch (result) {
-        case MavlinkCommandSender::Result::Success:
-            ret = Command::Result::Accepted;
-            break;
-        case MavlinkCommandSender::Result::InProgress:
-            ret = Command::Result::InProgress;
-            break;
-        default:
-            ret = Command::Result::Unsupported;
-            break;
+    Command::Result cmd_result = command_result_to_command_result(command_result);
+
+    if (callback) {
+        auto temp_callback = callback;
+        _parent->call_user_callback([temp_callback, cmd_result]() { temp_callback(cmd_result); });
     }
-
-    return ret;
 }
-
-
-
 
 } // namespace mavsdk

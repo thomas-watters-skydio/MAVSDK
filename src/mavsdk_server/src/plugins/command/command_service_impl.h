@@ -24,7 +24,6 @@ class CommandServiceImpl final : public rpc::command::CommandService::Service {
 public:
     CommandServiceImpl(LazyPlugin& lazy_plugin) : _lazy_plugin(lazy_plugin) {}
 
-
     template<typename ResponseType>
     void fillResponseWithResult(ResponseType* response, mavsdk::Command::Result& result) const
     {
@@ -39,118 +38,68 @@ public:
         response->set_allocated_command_result(rpc_command_result);
     }
 
-
-
-
-    static std::unique_ptr<rpc::command::CommandLong> translateToRpcCommandLong(const mavsdk::Command::CommandLong &command_long)
+    static std::unique_ptr<rpc::command::CommandLong>
+    translateToRpcCommandLong(const mavsdk::Command::CommandLong& command_long)
     {
         auto rpc_obj = std::make_unique<rpc::command::CommandLong>();
 
-
-            
         rpc_obj->set_target_system(command_long.target_system);
-            
-        
-            
+
         rpc_obj->set_target_component(command_long.target_component);
-            
-        
-            
+
         rpc_obj->set_command(command_long.command);
-            
-        
-            
+
         rpc_obj->set_confirmation(command_long.confirmation);
-            
-        
-            
+
         rpc_obj->set_param1(command_long.param1);
-            
-        
-            
+
         rpc_obj->set_param2(command_long.param2);
-            
-        
-            
+
         rpc_obj->set_param3(command_long.param3);
-            
-        
-            
+
         rpc_obj->set_param4(command_long.param4);
-            
-        
-            
+
         rpc_obj->set_param5(command_long.param5);
-            
-        
-            
+
         rpc_obj->set_param6(command_long.param6);
-            
-        
-            
+
         rpc_obj->set_param7(command_long.param7);
-            
-        
 
         return rpc_obj;
     }
 
-    static mavsdk::Command::CommandLong translateFromRpcCommandLong(const rpc::command::CommandLong& command_long)
+    static mavsdk::Command::CommandLong
+    translateFromRpcCommandLong(const rpc::command::CommandLong& command_long)
     {
         mavsdk::Command::CommandLong obj;
 
-
-            
         obj.target_system = command_long.target_system();
-            
-        
-            
+
         obj.target_component = command_long.target_component();
-            
-        
-            
+
         obj.command = command_long.command();
-            
-        
-            
+
         obj.confirmation = command_long.confirmation();
-            
-        
-            
+
         obj.param1 = command_long.param1();
-            
-        
-            
+
         obj.param2 = command_long.param2();
-            
-        
-            
+
         obj.param3 = command_long.param3();
-            
-        
-            
+
         obj.param4 = command_long.param4();
-            
-        
-            
+
         obj.param5 = command_long.param5();
-            
-        
-            
+
         obj.param6 = command_long.param6();
-            
-        
-            
+
         obj.param7 = command_long.param7();
-            
-        
+
         return obj;
     }
 
-
-
-
-    static rpc::command::CommandResult::Result translateToRpcResult(const mavsdk::Command::Result& result)
+    static rpc::command::CommandResult::Result
+    translateToRpcResult(const mavsdk::Command::Result& result)
     {
         switch (result) {
             default:
@@ -175,7 +124,8 @@ public:
         }
     }
 
-    static mavsdk::Command::Result translateFromRpcResult(const rpc::command::CommandResult::Result result)
+    static mavsdk::Command::Result
+    translateFromRpcResult(const rpc::command::CommandResult::Result result)
     {
         switch (result) {
             default:
@@ -200,21 +150,17 @@ public:
         }
     }
 
-
-
-
     grpc::Status SendCommandLong(
         grpc::ServerContext* /* context */,
         const rpc::command::SendCommandLongRequest* request,
         rpc::command::SendCommandLongResponse* response) override
     {
         if (_lazy_plugin.maybe_plugin() == nullptr) {
-            
             if (response != nullptr) {
                 auto result = mavsdk::Command::Result::NoSystem;
                 fillResponseWithResult(response, result);
             }
-            
+
             return grpc::Status::OK;
         }
 
@@ -222,22 +168,19 @@ public:
             LogWarn() << "SendCommandLong sent with a null request! Ignoring...";
             return grpc::Status::OK;
         }
-            
-        
-        auto result = _lazy_plugin.maybe_plugin()->send_command_long(translateFromRpcCommandLong(request->command()));
-        
 
-        
+        auto result = _lazy_plugin.maybe_plugin()->send_command_long(
+            translateFromRpcCommandLong(request->command()));
+
         if (response != nullptr) {
             fillResponseWithResult(response, result);
         }
-        
 
         return grpc::Status::OK;
     }
 
-
-    void stop() {
+    void stop()
+    {
         _stopped.store(true);
         for (auto& prom : _stream_stop_promises) {
             if (auto handle = prom.lock()) {
@@ -247,7 +190,8 @@ public:
     }
 
 private:
-    void register_stream_stop_promise(std::weak_ptr<std::promise<void>> prom) {
+    void register_stream_stop_promise(std::weak_ptr<std::promise<void>> prom)
+    {
         // If we have already stopped, set promise immediately and don't add it to list.
         if (_stopped.load()) {
             if (auto handle = prom.lock()) {
@@ -258,8 +202,10 @@ private:
         }
     }
 
-    void unregister_stream_stop_promise(std::shared_ptr<std::promise<void>> prom) {
-        for (auto it = _stream_stop_promises.begin(); it != _stream_stop_promises.end(); /* ++it */) {
+    void unregister_stream_stop_promise(std::shared_ptr<std::promise<void>> prom)
+    {
+        for (auto it = _stream_stop_promises.begin(); it != _stream_stop_promises.end();
+             /* ++it */) {
             if (it->lock() == prom) {
                 it = _stream_stop_promises.erase(it);
             } else {
@@ -270,7 +216,7 @@ private:
 
     LazyPlugin& _lazy_plugin;
     std::atomic<bool> _stopped{false};
-    std::vector<std::weak_ptr<std::promise<void>>> _stream_stop_promises {};
+    std::vector<std::weak_ptr<std::promise<void>>> _stream_stop_promises{};
 };
 
 } // namespace mavsdk_server

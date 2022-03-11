@@ -17,18 +17,14 @@ public:
     void enable() override;
     void disable() override;
 
-
-
-    void send_command_long_async(Command::CommandLong command, const Command::ResultCallback callback);
-
-
+    void
+    send_command_long_async(Command::CommandLong command, const Command::ResultCallback callback);
 
     Command::Result send_command_long(Command::CommandLong command);
 
-
-    Command::Result command_result_to_mission_result(MavlinkCommandSender::Result result);
-
 private:
+    void command_result_callback(
+        MavlinkCommandSender::Result command_result, const Command::ResultCallback& callback) const;
 };
 
 } // namespace mavsdk

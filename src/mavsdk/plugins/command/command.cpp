@@ -11,51 +11,43 @@ namespace mavsdk {
 
 using CommandLong = Command::CommandLong;
 
-
-
 Command::Command(System& system) : PluginBase(), _impl{std::make_unique<CommandImpl>(system)} {}
 
-Command::Command(std::shared_ptr<System> system) : PluginBase(), _impl{std::make_unique<CommandImpl>(system)} {}
+Command::Command(std::shared_ptr<System> system) :
+    PluginBase(),
+    _impl{std::make_unique<CommandImpl>(system)}
+{}
 
 Command::~Command() {}
-
-
 
 void Command::send_command_long_async(CommandLong command, const ResultCallback callback)
 {
     _impl->send_command_long_async(command, callback);
 }
 
-
-
 Command::Result Command::send_command_long(CommandLong command) const
 {
     return _impl->send_command_long(command);
 }
 
-
-
 bool operator==(const Command::CommandLong& lhs, const Command::CommandLong& rhs)
 {
-    return
-        (rhs.target_system == lhs.target_system) &&
-        (rhs.target_component == lhs.target_component) &&
-        (rhs.command == lhs.command) &&
-        (rhs.confirmation == lhs.confirmation) &&
-        ((std::isnan(rhs.param1) && std::isnan(lhs.param1)) || rhs.param1 == lhs.param1) &&
-        ((std::isnan(rhs.param2) && std::isnan(lhs.param2)) || rhs.param2 == lhs.param2) &&
-        ((std::isnan(rhs.param3) && std::isnan(lhs.param3)) || rhs.param3 == lhs.param3) &&
-        ((std::isnan(rhs.param4) && std::isnan(lhs.param4)) || rhs.param4 == lhs.param4) &&
-        ((std::isnan(rhs.param5) && std::isnan(lhs.param5)) || rhs.param5 == lhs.param5) &&
-        ((std::isnan(rhs.param6) && std::isnan(lhs.param6)) || rhs.param6 == lhs.param6) &&
-        ((std::isnan(rhs.param7) && std::isnan(lhs.param7)) || rhs.param7 == lhs.param7);
+    return (rhs.target_system == lhs.target_system) &&
+           (rhs.target_component == lhs.target_component) && (rhs.command == lhs.command) &&
+           (rhs.confirmation == lhs.confirmation) &&
+           ((std::isnan(rhs.param1) && std::isnan(lhs.param1)) || rhs.param1 == lhs.param1) &&
+           ((std::isnan(rhs.param2) && std::isnan(lhs.param2)) || rhs.param2 == lhs.param2) &&
+           ((std::isnan(rhs.param3) && std::isnan(lhs.param3)) || rhs.param3 == lhs.param3) &&
+           ((std::isnan(rhs.param4) && std::isnan(lhs.param4)) || rhs.param4 == lhs.param4) &&
+           ((std::isnan(rhs.param5) && std::isnan(lhs.param5)) || rhs.param5 == lhs.param5) &&
+           ((std::isnan(rhs.param6) && std::isnan(lhs.param6)) || rhs.param6 == lhs.param6) &&
+           ((std::isnan(rhs.param7) && std::isnan(lhs.param7)) || rhs.param7 == lhs.param7);
 }
 
 std::ostream& operator<<(std::ostream& str, Command::CommandLong const& command_long)
 {
     str << std::setprecision(15);
-    str << "command_long:" << '\n'
-        << "{\n";
+    str << "command_long:" << '\n' << "{\n";
     str << "    target_system: " << command_long.target_system << '\n';
     str << "    target_component: " << command_long.target_component << '\n';
     str << "    command: " << command_long.command << '\n';
@@ -70,8 +62,6 @@ std::ostream& operator<<(std::ostream& str, Command::CommandLong const& command_
     str << '}';
     return str;
 }
-
-
 
 std::ostream& operator<<(std::ostream& str, Command::Result const& result)
 {
@@ -96,8 +86,5 @@ std::ostream& operator<<(std::ostream& str, Command::Result const& result)
             return str << "Unknown";
     }
 }
-
-
-
 
 } // namespace mavsdk

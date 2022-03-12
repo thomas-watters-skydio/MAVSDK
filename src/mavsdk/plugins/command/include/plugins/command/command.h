@@ -91,14 +91,20 @@ public:
      * @brief
      */
     enum class Result {
-        Accepted, /**< @brief. */
-        TemporarilyRejected, /**< @brief. */
-        Denied, /**< @brief. */
-        Unsupported, /**< @brief. */
-        Failed, /**< @brief. */
-        InProgress, /**< @brief. */
-        Cancelled, /**< @brief. */
-        NoSystem, /**< @brief. */
+        Unknown, /**< @brief Unknown result. */
+        Success, /**< @brief Request was successful. */
+        NoSystem, /**< @brief No system is connected. */
+        ConnectionError, /**< @brief Connection error. */
+        Busy, /**< @brief Vehicle is busy. */
+        CommandDenied, /**< @brief Command refused by vehicle. */
+        CommandDeniedLandedStateUnknown, /**< @brief Command refused because landed state is
+                                            unknown. */
+        CommandDeniedNotLanded, /**< @brief Command refused because vehicle not landed. */
+        Timeout, /**< @brief Request timed out. */
+        VtolTransitionSupportUnknown, /**< @brief Hybrid/VTOL transition support is unknown. */
+        NoVtolTransitionSupport, /**< @brief Vehicle does not support hybrid/VTOL transitions. */
+        ParameterError, /**< @brief Error getting or setting parameter. */
+        Unsupported, /**< @brief Action not supported. */
     };
 
     /**

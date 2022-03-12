@@ -4,20 +4,24 @@ namespace mavsdk {
 
 static Command::Result command_result_to_command_result(MavlinkCommandSender::Result result)
 {
-    Command::Result ret;
     switch (result) {
         case MavlinkCommandSender::Result::Success:
-            ret = Command::Result::Accepted;
-            break;
-        case MavlinkCommandSender::Result::InProgress:
-            ret = Command::Result::InProgress;
-            break;
+            return Command::Result::Success;
+        case MavlinkCommandSender::Result::NoSystem:
+            return Command::Result::NoSystem;
+        case MavlinkCommandSender::Result::ConnectionError:
+            return Command::Result::ConnectionError;
+        case MavlinkCommandSender::Result::Busy:
+            return Command::Result::Busy;
+        case MavlinkCommandSender::Result::CommandDenied:
+            return Command::Result::CommandDenied;
+        case MavlinkCommandSender::Result::Timeout:
+            return Command::Result::Timeout;
+        case MavlinkCommandSender::Result::Unsupported:
+            return Command::Result::Unsupported;
         default:
-            ret = Command::Result::Unsupported;
-            break;
+            return Command::Result::Unknown;
     }
-
-    return ret;
 }
 
 CommandImpl::CommandImpl(System& system) : PluginImplBase(system)
@@ -67,26 +71,11 @@ void CommandImpl::send_command_long_async(
 
 Command::Result CommandImpl::send_command_long(Command::CommandLong command)
 {
-    MavlinkCommandSender::CommandLong cmd{};
-
-    cmd.target_system_id = command.target_system;
-    cmd.target_component_id = command.target_component;
-    cmd.command = command.command;
-    cmd.confirmation = command.confirmation;
-    cmd.params.maybe_param1 = command.param1;
-    cmd.params.maybe_param2 = command.param2;
-    cmd.params.maybe_param3 = command.param3;
-    cmd.params.maybe_param4 = command.param4;
-    cmd.params.maybe_param5 = command.param5;
-    cmd.params.maybe_param6 = command.param6;
-    cmd.params.maybe_param7 = command.param7;
-
     auto prom = std::promise<Command::Result>();
     auto fut = prom.get_future();
 
-    _parent->send_command_async(cmd, [&prom, this](MavlinkCommandSender::Result result, float) {
-        prom.set_value(command_result_to_command_result(result));
-    });
+    send_command_long_async(command, [&prom](Command::Result result) { prom.set_value(result); });
+
     return fut.get();
 }
 

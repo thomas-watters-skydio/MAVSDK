@@ -105,22 +105,33 @@ public:
             default:
                 LogErr() << "Unknown result enum value: " << static_cast<int>(result);
             // FALLTHROUGH
-            case mavsdk::Command::Result::Accepted:
-                return rpc::command::CommandResult_Result_RESULT_ACCEPTED;
-            case mavsdk::Command::Result::TemporarilyRejected:
-                return rpc::command::CommandResult_Result_RESULT_TEMPORARILY_REJECTED;
-            case mavsdk::Command::Result::Denied:
-                return rpc::command::CommandResult_Result_RESULT_DENIED;
-            case mavsdk::Command::Result::Unsupported:
-                return rpc::command::CommandResult_Result_RESULT_UNSUPPORTED;
-            case mavsdk::Command::Result::Failed:
-                return rpc::command::CommandResult_Result_RESULT_FAILED;
-            case mavsdk::Command::Result::InProgress:
-                return rpc::command::CommandResult_Result_RESULT_IN_PROGRESS;
-            case mavsdk::Command::Result::Cancelled:
-                return rpc::command::CommandResult_Result_RESULT_CANCELLED;
+            case mavsdk::Command::Result::Unknown:
+                return rpc::command::CommandResult_Result_RESULT_UNKNOWN;
+            case mavsdk::Command::Result::Success:
+                return rpc::command::CommandResult_Result_RESULT_SUCCESS;
             case mavsdk::Command::Result::NoSystem:
                 return rpc::command::CommandResult_Result_RESULT_NO_SYSTEM;
+            case mavsdk::Command::Result::ConnectionError:
+                return rpc::command::CommandResult_Result_RESULT_CONNECTION_ERROR;
+            case mavsdk::Command::Result::Busy:
+                return rpc::command::CommandResult_Result_RESULT_BUSY;
+            case mavsdk::Command::Result::CommandDenied:
+                return rpc::command::CommandResult_Result_RESULT_COMMAND_DENIED;
+            case mavsdk::Command::Result::CommandDeniedLandedStateUnknown:
+                return rpc::command::
+                    CommandResult_Result_RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN;
+            case mavsdk::Command::Result::CommandDeniedNotLanded:
+                return rpc::command::CommandResult_Result_RESULT_COMMAND_DENIED_NOT_LANDED;
+            case mavsdk::Command::Result::Timeout:
+                return rpc::command::CommandResult_Result_RESULT_TIMEOUT;
+            case mavsdk::Command::Result::VtolTransitionSupportUnknown:
+                return rpc::command::CommandResult_Result_RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN;
+            case mavsdk::Command::Result::NoVtolTransitionSupport:
+                return rpc::command::CommandResult_Result_RESULT_NO_VTOL_TRANSITION_SUPPORT;
+            case mavsdk::Command::Result::ParameterError:
+                return rpc::command::CommandResult_Result_RESULT_PARAMETER_ERROR;
+            case mavsdk::Command::Result::Unsupported:
+                return rpc::command::CommandResult_Result_RESULT_UNSUPPORTED;
         }
     }
 
@@ -131,22 +142,32 @@ public:
             default:
                 LogErr() << "Unknown result enum value: " << static_cast<int>(result);
             // FALLTHROUGH
-            case rpc::command::CommandResult_Result_RESULT_ACCEPTED:
-                return mavsdk::Command::Result::Accepted;
-            case rpc::command::CommandResult_Result_RESULT_TEMPORARILY_REJECTED:
-                return mavsdk::Command::Result::TemporarilyRejected;
-            case rpc::command::CommandResult_Result_RESULT_DENIED:
-                return mavsdk::Command::Result::Denied;
-            case rpc::command::CommandResult_Result_RESULT_UNSUPPORTED:
-                return mavsdk::Command::Result::Unsupported;
-            case rpc::command::CommandResult_Result_RESULT_FAILED:
-                return mavsdk::Command::Result::Failed;
-            case rpc::command::CommandResult_Result_RESULT_IN_PROGRESS:
-                return mavsdk::Command::Result::InProgress;
-            case rpc::command::CommandResult_Result_RESULT_CANCELLED:
-                return mavsdk::Command::Result::Cancelled;
+            case rpc::command::CommandResult_Result_RESULT_UNKNOWN:
+                return mavsdk::Command::Result::Unknown;
+            case rpc::command::CommandResult_Result_RESULT_SUCCESS:
+                return mavsdk::Command::Result::Success;
             case rpc::command::CommandResult_Result_RESULT_NO_SYSTEM:
                 return mavsdk::Command::Result::NoSystem;
+            case rpc::command::CommandResult_Result_RESULT_CONNECTION_ERROR:
+                return mavsdk::Command::Result::ConnectionError;
+            case rpc::command::CommandResult_Result_RESULT_BUSY:
+                return mavsdk::Command::Result::Busy;
+            case rpc::command::CommandResult_Result_RESULT_COMMAND_DENIED:
+                return mavsdk::Command::Result::CommandDenied;
+            case rpc::command::CommandResult_Result_RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN:
+                return mavsdk::Command::Result::CommandDeniedLandedStateUnknown;
+            case rpc::command::CommandResult_Result_RESULT_COMMAND_DENIED_NOT_LANDED:
+                return mavsdk::Command::Result::CommandDeniedNotLanded;
+            case rpc::command::CommandResult_Result_RESULT_TIMEOUT:
+                return mavsdk::Command::Result::Timeout;
+            case rpc::command::CommandResult_Result_RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN:
+                return mavsdk::Command::Result::VtolTransitionSupportUnknown;
+            case rpc::command::CommandResult_Result_RESULT_NO_VTOL_TRANSITION_SUPPORT:
+                return mavsdk::Command::Result::NoVtolTransitionSupport;
+            case rpc::command::CommandResult_Result_RESULT_PARAMETER_ERROR:
+                return mavsdk::Command::Result::ParameterError;
+            case rpc::command::CommandResult_Result_RESULT_UNSUPPORTED:
+                return mavsdk::Command::Result::Unsupported;
         }
     }
 

@@ -66,22 +66,32 @@ std::ostream& operator<<(std::ostream& str, Command::CommandLong const& command_
 std::ostream& operator<<(std::ostream& str, Command::Result const& result)
 {
     switch (result) {
-        case Command::Result::Accepted:
-            return str << "Accepted";
-        case Command::Result::TemporarilyRejected:
-            return str << "Temporarily Rejected";
-        case Command::Result::Denied:
-            return str << "Denied";
-        case Command::Result::Unsupported:
-            return str << "Unsupported";
-        case Command::Result::Failed:
-            return str << "Failed";
-        case Command::Result::InProgress:
-            return str << "In Progress";
-        case Command::Result::Cancelled:
-            return str << "Cancelled";
+        case Command::Result::Unknown:
+            return str << "Unknown";
+        case Command::Result::Success:
+            return str << "Success";
         case Command::Result::NoSystem:
             return str << "No System";
+        case Command::Result::ConnectionError:
+            return str << "Connection Error";
+        case Command::Result::Busy:
+            return str << "Busy";
+        case Command::Result::CommandDenied:
+            return str << "Command Denied";
+        case Command::Result::CommandDeniedLandedStateUnknown:
+            return str << "Command Denied Landed State Unknown";
+        case Command::Result::CommandDeniedNotLanded:
+            return str << "Command Denied Not Landed";
+        case Command::Result::Timeout:
+            return str << "Timeout";
+        case Command::Result::VtolTransitionSupportUnknown:
+            return str << "Vtol Transition Support Unknown";
+        case Command::Result::NoVtolTransitionSupport:
+            return str << "No Vtol Transition Support";
+        case Command::Result::ParameterError:
+            return str << "Parameter Error";
+        case Command::Result::Unsupported:
+            return str << "Unsupported";
         default:
             return str << "Unknown";
     }

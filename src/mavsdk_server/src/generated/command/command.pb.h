@@ -83,20 +83,25 @@ namespace rpc {
 namespace command {
 
 enum CommandResult_Result : int {
-  CommandResult_Result_RESULT_ACCEPTED = 0,
-  CommandResult_Result_RESULT_TEMPORARILY_REJECTED = 1,
-  CommandResult_Result_RESULT_DENIED = 2,
-  CommandResult_Result_RESULT_UNSUPPORTED = 3,
-  CommandResult_Result_RESULT_FAILED = 4,
-  CommandResult_Result_RESULT_IN_PROGRESS = 5,
-  CommandResult_Result_RESULT_CANCELLED = 6,
-  CommandResult_Result_RESULT_NO_SYSTEM = 7,
+  CommandResult_Result_RESULT_UNKNOWN = 0,
+  CommandResult_Result_RESULT_SUCCESS = 1,
+  CommandResult_Result_RESULT_NO_SYSTEM = 2,
+  CommandResult_Result_RESULT_CONNECTION_ERROR = 3,
+  CommandResult_Result_RESULT_BUSY = 4,
+  CommandResult_Result_RESULT_COMMAND_DENIED = 5,
+  CommandResult_Result_RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN = 6,
+  CommandResult_Result_RESULT_COMMAND_DENIED_NOT_LANDED = 7,
+  CommandResult_Result_RESULT_TIMEOUT = 8,
+  CommandResult_Result_RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN = 9,
+  CommandResult_Result_RESULT_NO_VTOL_TRANSITION_SUPPORT = 10,
+  CommandResult_Result_RESULT_PARAMETER_ERROR = 11,
+  CommandResult_Result_RESULT_UNSUPPORTED = 12,
   CommandResult_Result_CommandResult_Result_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   CommandResult_Result_CommandResult_Result_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool CommandResult_Result_IsValid(int value);
-constexpr CommandResult_Result CommandResult_Result_Result_MIN = CommandResult_Result_RESULT_ACCEPTED;
-constexpr CommandResult_Result CommandResult_Result_Result_MAX = CommandResult_Result_RESULT_NO_SYSTEM;
+constexpr CommandResult_Result CommandResult_Result_Result_MIN = CommandResult_Result_RESULT_UNKNOWN;
+constexpr CommandResult_Result CommandResult_Result_Result_MAX = CommandResult_Result_RESULT_UNSUPPORTED;
 constexpr int CommandResult_Result_Result_ARRAYSIZE = CommandResult_Result_Result_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CommandResult_Result_descriptor();
@@ -773,22 +778,32 @@ class CommandResult final :
   // nested types ----------------------------------------------------
 
   typedef CommandResult_Result Result;
-  static constexpr Result RESULT_ACCEPTED =
-    CommandResult_Result_RESULT_ACCEPTED;
-  static constexpr Result RESULT_TEMPORARILY_REJECTED =
-    CommandResult_Result_RESULT_TEMPORARILY_REJECTED;
-  static constexpr Result RESULT_DENIED =
-    CommandResult_Result_RESULT_DENIED;
-  static constexpr Result RESULT_UNSUPPORTED =
-    CommandResult_Result_RESULT_UNSUPPORTED;
-  static constexpr Result RESULT_FAILED =
-    CommandResult_Result_RESULT_FAILED;
-  static constexpr Result RESULT_IN_PROGRESS =
-    CommandResult_Result_RESULT_IN_PROGRESS;
-  static constexpr Result RESULT_CANCELLED =
-    CommandResult_Result_RESULT_CANCELLED;
+  static constexpr Result RESULT_UNKNOWN =
+    CommandResult_Result_RESULT_UNKNOWN;
+  static constexpr Result RESULT_SUCCESS =
+    CommandResult_Result_RESULT_SUCCESS;
   static constexpr Result RESULT_NO_SYSTEM =
     CommandResult_Result_RESULT_NO_SYSTEM;
+  static constexpr Result RESULT_CONNECTION_ERROR =
+    CommandResult_Result_RESULT_CONNECTION_ERROR;
+  static constexpr Result RESULT_BUSY =
+    CommandResult_Result_RESULT_BUSY;
+  static constexpr Result RESULT_COMMAND_DENIED =
+    CommandResult_Result_RESULT_COMMAND_DENIED;
+  static constexpr Result RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN =
+    CommandResult_Result_RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN;
+  static constexpr Result RESULT_COMMAND_DENIED_NOT_LANDED =
+    CommandResult_Result_RESULT_COMMAND_DENIED_NOT_LANDED;
+  static constexpr Result RESULT_TIMEOUT =
+    CommandResult_Result_RESULT_TIMEOUT;
+  static constexpr Result RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN =
+    CommandResult_Result_RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN;
+  static constexpr Result RESULT_NO_VTOL_TRANSITION_SUPPORT =
+    CommandResult_Result_RESULT_NO_VTOL_TRANSITION_SUPPORT;
+  static constexpr Result RESULT_PARAMETER_ERROR =
+    CommandResult_Result_RESULT_PARAMETER_ERROR;
+  static constexpr Result RESULT_UNSUPPORTED =
+    CommandResult_Result_RESULT_UNSUPPORTED;
   static inline bool Result_IsValid(int value) {
     return CommandResult_Result_IsValid(value);
   }

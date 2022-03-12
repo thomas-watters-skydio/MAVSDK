@@ -148,23 +148,27 @@ const char descriptor_table_protodef_command_2fcommand_2eproto[] PROTOBUF_SECTIO
   "4\030\010 \001(\002\022\016\n\006param5\030\t \001(\002\022\016\n\006param6\030\n \001(\002\022"
   "\016\n\006param7\030\013 \001(\002\"T\n\027SendCommandLongRespon"
   "se\0229\n\016command_result\030\001 \001(\0132!.mavsdk.rpc."
-  "command.CommandResult\"\240\002\n\rCommandResult\022"
+  "command.CommandResult\"\340\003\n\rCommandResult\022"
   "8\n\006result\030\001 \001(\0162(.mavsdk.rpc.command.Com"
-  "mandResult.Result\022\022\n\nresult_str\030\002 \001(\t\"\300\001"
-  "\n\006Result\022\023\n\017RESULT_ACCEPTED\020\000\022\037\n\033RESULT_"
-  "TEMPORARILY_REJECTED\020\001\022\021\n\rRESULT_DENIED\020"
-  "\002\022\026\n\022RESULT_UNSUPPORTED\020\003\022\021\n\rRESULT_FAIL"
-  "ED\020\004\022\026\n\022RESULT_IN_PROGRESS\020\005\022\024\n\020RESULT_C"
-  "ANCELLED\020\006\022\024\n\020RESULT_NO_SYSTEM\020\0072~\n\016Comm"
-  "andService\022l\n\017SendCommandLong\022*.mavsdk.r"
-  "pc.command.SendCommandLongRequest\032+.mavs"
-  "dk.rpc.command.SendCommandLongResponse\"\000"
-  "B!\n\021io.mavsdk.commandB\014CommandProtob\006pro"
-  "to3"
+  "mandResult.Result\022\022\n\nresult_str\030\002 \001(\t\"\200\003"
+  "\n\006Result\022\022\n\016RESULT_UNKNOWN\020\000\022\022\n\016RESULT_S"
+  "UCCESS\020\001\022\024\n\020RESULT_NO_SYSTEM\020\002\022\033\n\027RESULT"
+  "_CONNECTION_ERROR\020\003\022\017\n\013RESULT_BUSY\020\004\022\031\n\025"
+  "RESULT_COMMAND_DENIED\020\005\022.\n*RESULT_COMMAN"
+  "D_DENIED_LANDED_STATE_UNKNOWN\020\006\022$\n RESUL"
+  "T_COMMAND_DENIED_NOT_LANDED\020\007\022\022\n\016RESULT_"
+  "TIMEOUT\020\010\022*\n&RESULT_VTOL_TRANSITION_SUPP"
+  "ORT_UNKNOWN\020\t\022%\n!RESULT_NO_VTOL_TRANSITI"
+  "ON_SUPPORT\020\n\022\032\n\026RESULT_PARAMETER_ERROR\020\013"
+  "\022\026\n\022RESULT_UNSUPPORTED\020\0142~\n\016CommandServi"
+  "ce\022l\n\017SendCommandLong\022*.mavsdk.rpc.comma"
+  "nd.SendCommandLongRequest\032+.mavsdk.rpc.c"
+  "ommand.SendCommandLongResponse\"\000B!\n\021io.m"
+  "avsdk.commandB\014CommandProtob\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_command_2fcommand_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_command_2fcommand_2eproto = {
-  false, false, 883, descriptor_table_protodef_command_2fcommand_2eproto, "command/command.proto", 
+  false, false, 1075, descriptor_table_protodef_command_2fcommand_2eproto, "command/command.proto", 
   &descriptor_table_command_2fcommand_2eproto_once, nullptr, 0, 4,
   schemas, file_default_instances, TableStruct_command_2fcommand_2eproto::offsets,
   file_level_metadata_command_2fcommand_2eproto, file_level_enum_descriptors_command_2fcommand_2eproto, file_level_service_descriptors_command_2fcommand_2eproto,
@@ -192,6 +196,11 @@ bool CommandResult_Result_IsValid(int value) {
     case 5:
     case 6:
     case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
       return true;
     default:
       return false;
@@ -199,14 +208,19 @@ bool CommandResult_Result_IsValid(int value) {
 }
 
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr CommandResult_Result CommandResult::RESULT_ACCEPTED;
-constexpr CommandResult_Result CommandResult::RESULT_TEMPORARILY_REJECTED;
-constexpr CommandResult_Result CommandResult::RESULT_DENIED;
-constexpr CommandResult_Result CommandResult::RESULT_UNSUPPORTED;
-constexpr CommandResult_Result CommandResult::RESULT_FAILED;
-constexpr CommandResult_Result CommandResult::RESULT_IN_PROGRESS;
-constexpr CommandResult_Result CommandResult::RESULT_CANCELLED;
+constexpr CommandResult_Result CommandResult::RESULT_UNKNOWN;
+constexpr CommandResult_Result CommandResult::RESULT_SUCCESS;
 constexpr CommandResult_Result CommandResult::RESULT_NO_SYSTEM;
+constexpr CommandResult_Result CommandResult::RESULT_CONNECTION_ERROR;
+constexpr CommandResult_Result CommandResult::RESULT_BUSY;
+constexpr CommandResult_Result CommandResult::RESULT_COMMAND_DENIED;
+constexpr CommandResult_Result CommandResult::RESULT_COMMAND_DENIED_LANDED_STATE_UNKNOWN;
+constexpr CommandResult_Result CommandResult::RESULT_COMMAND_DENIED_NOT_LANDED;
+constexpr CommandResult_Result CommandResult::RESULT_TIMEOUT;
+constexpr CommandResult_Result CommandResult::RESULT_VTOL_TRANSITION_SUPPORT_UNKNOWN;
+constexpr CommandResult_Result CommandResult::RESULT_NO_VTOL_TRANSITION_SUPPORT;
+constexpr CommandResult_Result CommandResult::RESULT_PARAMETER_ERROR;
+constexpr CommandResult_Result CommandResult::RESULT_UNSUPPORTED;
 constexpr CommandResult_Result CommandResult::Result_MIN;
 constexpr CommandResult_Result CommandResult::Result_MAX;
 constexpr int CommandResult::Result_ARRAYSIZE;
